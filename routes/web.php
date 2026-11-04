@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BukuController;
 
 // 1. READ (INDEX, PENCARIAN & FILTER)
 Route::get('/mahasiswa', function (Request $request) {
@@ -166,3 +167,6 @@ Route::delete('/mahasiswa/{id}', function (int $id) {
         return redirect()->route('mahasiswa.index')->with('gagal', 'Data gagal dihapus. Periksa relasi atau koneksi.');
     }
 })->name('mahasiswa.destroy');
+
+Route::get('/buku', [BukuController::class, 'index']);
+Route::get('/buku/{kode}', [BukuController::class, 'show']);
