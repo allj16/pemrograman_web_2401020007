@@ -168,5 +168,5 @@ Route::delete('/mahasiswa/{id}', function (int $id) {
     }
 })->name('mahasiswa.destroy');
 
-Route::get('/buku', [BukuController::class, 'index']);
-Route::get('/buku/{kode}', [BukuController::class, 'show']);
+Route::get('/', fn () => redirect()->route('buku.index'));
+Route::resource('buku', BukuController::class);

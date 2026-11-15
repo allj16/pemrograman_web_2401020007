@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Buku extends Model
 {
-    public static function contoh(): array
+    protected $primaryKey = 'kode';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected $fillable = ['kode', 'judul', 'kategori_id'];
+
+    public function kategori(): BelongsTo
     {
-        return [
-            ['kode' => 'BK001', 'judul' => 'Dasar PHP'],
-            ['kode' => 'BK002', 'judul' => 'Belajar Laravel'],
-            ['kode' => 'BK003', 'judul' => 'Logika Web'],
-            ['kode' => 'BK004', 'judul' => 'Pemrograman Web Advanced'], // Ditambahkan sesuai Tugas 1
-        ];
+        return $this->belongsTo(Kategori::class);
     }
 }
