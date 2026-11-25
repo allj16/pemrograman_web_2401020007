@@ -12,15 +12,25 @@ class BukuController extends Controller
 {
     public function index(Request $request): View
     {
-        $cari = trim((string) $request->query('cari', ''));
+        $cari = $request->query('cari');
+        $kategoriId = $request->query('kategori_id');
 
         $buku = Buku::with('kategori')
-            ->when($cari !== '', function ($query) use ($cari) {
-                $query->where('judul', 'like', "%{$cari}%");
+            ->when($cari, function ($query, $cari) {
+                $query->where(function ($q) use ($cari) {
+                    $q->where('judul', 'like', "%{$cari}%")
+                      ->orWhere('kode', 'like', "%{$cari}%");
+                });
             })
+            ->when($kategoriId, function ($query, $kategoriId) {
+                $query->where('kategori_id', $kategoriId);
+            })
+            ->orderBy('kode')
             ->get();
 
-        return view('buku.index', compact('buku', 'cari'));
+        $kategoris = Kategori::orderBy('nama')->get();
+
+        return view('buku.index', compact('buku', 'kategoris', 'cari', 'kategoriId'));
     }
 
     public function create(): View

@@ -12,11 +12,29 @@
         <p><strong>{{ session('sukses') }}</strong></p>
     @endif
 
-    <p><a href="{{ route('buku.create') }}">+ Tambah Buku</a></p>
+    <!-- 1. TAMBAHKAN LINK KELOLA KATEGORI DI SINI -->
+    <p>
+        <a href="{{ route('buku.create') }}">+ Tambah Buku</a> |
+        <a href="{{ route('kategori.index') }}">Kelola Kategori</a>
+    </p>
 
     <form method="GET" action="{{ route('buku.index') }}">
         <label>Cari judul <input type="text" name="cari" value="{{ $cari }}"></label>
+        
+        <!-- 2. TAMBAHKAN FILTER KATEGORI & TOMBOL RESET DI SINI -->
+        <label>Kategori
+            <select name="kategori_id">
+                <option value="">-- Semua Kategori --</option>
+                @foreach ($kategoris as $kat)
+                    <option value="{{ $kat->id }}" {{ ($kategoriId ?? '') == $kat->id ? 'selected' : '' }}>
+                        {{ $kat->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </label>
+
         <button type="submit">Cari</button>
+        <a href="{{ route('buku.index') }}">Reset</a>
     </form>
     <br>
 
