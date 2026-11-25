@@ -6,6 +6,11 @@
 </head>
 <body>
     <h1>Daftar Buku</h1>
+    <p>Masuk sebagai {{ auth()->user()->name }}</p>
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit">Keluar</button>
+</form>
     <p>Praktikum Pemrograman Web</p>
 
     @if (session('sukses'))
@@ -54,7 +59,6 @@
                     <td>{{ $item->judul }}</td>
                     <td>{{ $item->kategori->nama ?? '-' }}</td>
                     <td>
-                        <a href="{{ route('buku.show', $item) }}">Lihat</a> |
                         <a href="{{ route('buku.edit', $item) }}">Edit</a> |
                         <form action="{{ route('buku.destroy', $item) }}" method="POST" style="display:inline;">
                             @csrf
